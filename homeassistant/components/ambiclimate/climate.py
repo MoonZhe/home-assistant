@@ -153,7 +153,7 @@ class AmbiclimateEntity(ClimateEntity):
     _attr_temperature_unit = TEMP_CELSIUS
     _attr_target_temperature_step = 1
     _attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
-    _attr_hvac_modes = [HVACMode.HEAT, HVACMode.OFF]
+    _attr_hvac_modes = [HVACMode.COOL, HVACMode.OFF]
 
     def __init__(self, heater, store):
         """Initialize the thermostat."""
@@ -175,7 +175,7 @@ class AmbiclimateEntity(ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set new target hvac mode."""
-        if hvac_mode == HVACMode.HEAT:
+        if hvac_mode == HVACMode.COOL:
             await self._heater.turn_on()
             return
         if hvac_mode == HVACMode.OFF:
@@ -199,5 +199,5 @@ class AmbiclimateEntity(ClimateEntity):
         self._attr_current_temperature = data.get("temperature")
         self._attr_current_humidity = data.get("humidity")
         self._attr_hvac_mode = (
-            HVACMode.HEAT if data.get("power", "").lower() == "on" else HVACMode.OFF
+            HVACMode.COOL if data.get("power", "").lower() == "on" else HVACMode.OFF
         )
